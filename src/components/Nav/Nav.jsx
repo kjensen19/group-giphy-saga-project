@@ -21,6 +21,7 @@ function Nav(){
     };
 
     return (
+
         <div className="searchSection">
             <input
                 type="text"

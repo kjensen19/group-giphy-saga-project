@@ -14,7 +14,11 @@ import { takeEvery, put } from 'redux-saga/effects';
 
 
 //REDUCERS
-const gifList = (state=[], action) => {
+const gifList = (state=    [{
+          img: 'https://media.giphy.com/media/dB0lH3k3AE96259Exh/giphy.gif',
+          title: 'Hi!',
+          author: 'Sarah',
+        }], action) => {
     switch (action.type) {
         case 'SET_GIFS':
             return action.payload
@@ -24,13 +28,23 @@ const gifList = (state=[], action) => {
 
 //SAGA FUNCTIONS
 function* searchForGifs (action){
-  console.log(action.payload);
+  console.log('?', action.payload);
   try{
-    const giphyGifList = yield axios.get({ url: '/api/giphy', data: action.payload});
-    console.log(giphyGifList);
+    const giphyGifList = yield axios({
+        method: 'GET',
+        url: '/api/giphy', 
+        data: action.payload});
+    console.log(giphyGifList.data);
+        let giphyList = []
+        for(let gif of giphyGifList.data){
+            giphyList.push({
+            img: gif.images.fixed_height.url,
+            title: gif.username,
+            author: 'Maybe?'
+    })}
     yield put ({
       type: 'SET_GIFS',
-      payload: giphyGifList
+      payload: giphyList
     });
   }
   catch(error){
@@ -62,6 +76,7 @@ function* rootSaga(){
   yield takeEvery('GET_FAVES_S', getFaves)
 };
 
+const sagaMiddleware = createSagaMiddleware();
 
 
 //STORE & MIDDLEWEAR
@@ -70,7 +85,7 @@ const storeInstance = createStore(
   combineReducers({
     gifList,
   }),
-  applyMiddleware(logger, sagaMiddleware)
+  applyMiddleware(sagaMiddleware, logger)
 );
 
 sagaMiddleware.run(rootSaga);
