@@ -38,8 +38,7 @@ function* searchForGifs (action){
         let giphyList = []
         for(let gif of giphyGifList.data){
             giphyList.push({
-            id: gif.username,
-            url: gif.images.fixed_height.url,
+            url: gif.images.fixed_height.url
     })}
     yield put ({
       type: 'SET_GIFS',
@@ -69,10 +68,28 @@ function* getFaves() {
   }
 };
 
+function* addFaves(action) {
+    try{
+        const urlToAdd = action.payload
+        yield axios({
+            method: 'POST',
+            url: '/api/favorite',
+            data: urlToAdd
+        })
+        yield put({
+            type: 'GET_FAVES_S'
+        })
+    }
+    catch(error) {
+        console.log('error in post', error)
+    }
+}
+
 //SAGA ROOT FUNCTION
 function* rootSaga(){
   yield takeEvery('SEARCH_GIFS_S', searchForGifs)
   yield takeEvery('GET_FAVES_S', getFaves)
+  yield takeEvery('ADD_FAVES_S', addFaves)
 };
 
 

@@ -67,3 +67,6 @@ You are given two router modules on the server with stubs for the routes you may
     - User should be able to edit an existing category
     - User should be able to delete/remove an existing category
 
+
+
+https://media1.giphy.com/media/ciOGnfKleV3nc9NQHX/200.gif?cid=06f33e78d59udn48m6foy4ktth37co44ruxn0j41x8c3jz7f&rid=200.gif&ct=g

@@ -10,6 +10,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useDispatch } from 'react-redux'
 
 
 // const itemData = [
@@ -32,10 +33,16 @@ import Select from '@mui/material/Select';
 
 
 function GifItem( { item, i }) {
+    const dispatch = useDispatch()
 
     function handleFavorite(fav) {
-        const idToFavorite = fav
-        console.log('ID?', idToFavorite)
+        const urlToFavorite = {url: item.url}
+        console.log('ID?', urlToFavorite)
+        dispatch({
+            type: 'ADD_FAVES_S',
+            payload: urlToFavorite
+        })
+
 
     }
 
@@ -52,7 +59,7 @@ function GifItem( { item, i }) {
             <CardContent>
             </CardContent>
             <CardActions>
-                <FavoriteIcon id={i} onClick={() => handleFavorite(i)}/>Favorite
+                <FavoriteIcon id={i} onClick={() => handleFavorite(item.url)}/>Favorite
                 <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">CATEGORY</InputLabel>
