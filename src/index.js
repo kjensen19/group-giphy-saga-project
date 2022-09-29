@@ -13,7 +13,7 @@ import createSagaMiddleware from 'redux-saga';
 import { takeEvery, put } from 'redux-saga/effects';
 
 
-//Reducers GO HERE
+//REDUCERS
 const gifList = (state=[], action) => {
     switch (action.type) {
         case 'SET_GIFS':
@@ -24,34 +24,40 @@ const gifList = (state=[], action) => {
 }
 
 //SAGA FUNCTIONS
+function* searchForGifs (action){
+  console.log(action.payload);
+  try{
+    const giphyGifList = yield axios.get({ url: '/api/giphy', data: action.payload});
+    console.log(giphyGifList);
+    yield put ({
+      type: 'SET_GIFS',
+      payload: giphyGifList
+    });
+  }
+  catch(error){
+    console.log(error);
+  };
+};
 
 
 //SAGA ROOT FUNCTION
 function* rootSaga(){
-//     yield takeEvery('SAGA!FETCH_ELEMENTS', fetchElements)
-//   yield takeEvery('SAGA!CREATE_ELEMENT', createElement)
-}
-
-// ⚡ TODO Instantiate Saga middleware:
-const sagaMiddleware = createSagaMiddleware();
+  yield takeEvery('SEARCH_GIFS_S', searchForGifs)
+};
 
 
-// Creates this application's Redux store, which is a JS object
-// that holds our global state via reducers:
+
+//STORE & MIDDLEWEAR
 const storeInstance = createStore(
   combineReducers({
     gifList,
   }),
-  // ⚡ TODO Apply Saga middleware:
   applyMiddleware(logger, sagaMiddleware)
 );
 
-// ⚡ TODO Run Saga middleware:
+const sagaMiddleware = createSagaMiddleware();
 sagaMiddleware.run(rootSaga);
 
-
-// Wrap our App component in the 'react-redux' Provider, then
-// render it on the DOM:
 ReactDOM.render(
   <Provider store={storeInstance}>
     <App/>
