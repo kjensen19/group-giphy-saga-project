@@ -9,7 +9,7 @@ router.get ('/', (req, res) => {
     console.log(req.body);
     axios({
         method: 'GET',
-        url: `https://api.giphy.com/v1/gifs/trending?api_key=${api_key}`
+        url: `https://api.giphy.com/v1/gifs/trending?api_key=${api_key}&tag=${req.body}`
     }).then((response) => {
         console.log(response.data.data)
         res.send(response.data.data)
@@ -20,4 +20,4 @@ router.get ('/', (req, res) => {
 
 module.exports = router;
 
-// &tag=${req.body}
+// 

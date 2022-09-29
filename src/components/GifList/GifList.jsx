@@ -33,9 +33,9 @@ function GifList() {
 
   return (
     <ImageList sx={{ width: .8, height: .8 }}>
-      {theGifs.map((item) => (
-        <ImageListItem key={item.img}>
-            <GifItem item={item} />
+      {theGifs.map((item, i) => (
+        <ImageListItem >
+            <GifItem item={item} i={i} />
         </ImageListItem >
       ))}
     </ImageList>
