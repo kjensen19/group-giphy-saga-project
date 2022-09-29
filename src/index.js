@@ -38,9 +38,8 @@ function* searchForGifs (action){
         let giphyList = []
         for(let gif of giphyGifList.data){
             giphyList.push({
-            img: gif.images.fixed_height.url,
-            title: gif.username,
-            author: 'Maybe?'
+            id: gif.username,
+            url: gif.images.fixed_height.url,
     })}
     yield put ({
       type: 'SET_GIFS',
@@ -76,7 +75,6 @@ function* rootSaga(){
   yield takeEvery('GET_FAVES_S', getFaves)
 };
 
-const sagaMiddleware = createSagaMiddleware();
 
 
 //STORE & MIDDLEWEAR

@@ -31,7 +31,13 @@ import Select from '@mui/material/Select';
 //   ];
 
 
-function GifItem( { item }) {
+function GifItem( { item, i }) {
+
+    function handleFavorite(fav) {
+        const idToFavorite = fav
+        console.log('ID?', idToFavorite)
+
+    }
 
     return (
         <>
@@ -39,17 +45,14 @@ function GifItem( { item }) {
             <CardMedia
                 component="img"
                 height="280"
-                src={item.img}
-                alt={item.title}
-                key={item.img}
+                src={item.url}
+                alt={item}
+                key={item.id}
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                {item.title}
-                </Typography>
             </CardContent>
             <CardActions>
-                <FavoriteIcon />Favorite
+                <FavoriteIcon id={i} onClick={() => handleFavorite(i)}/>Favorite
                 <Box sx={{ minWidth: 120 }}>
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">CATEGORY</InputLabel>
