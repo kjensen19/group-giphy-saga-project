@@ -19,7 +19,6 @@ const gifList = (state=[], action) => {
         case 'SET_GIFS':
             return action.payload
     }
-    
     return state
 }
 
@@ -39,15 +38,34 @@ function* searchForGifs (action){
   };
 };
 
+function* getFaves() {
+  console.log('in getFaves Saga');
+  try{
+    const faveList = yield axios ({
+      method: 'GET',
+      url: '/api/favorite'
+    })
+    console.log('favelist is:', faveList);
+    yield put({
+      type: 'SET_GIFS',
+      payload: faveList.data
+    })
+  }
+  catch(error) {
+    console.log(error);
+  }
+};
 
 //SAGA ROOT FUNCTION
 function* rootSaga(){
   yield takeEvery('SEARCH_GIFS_S', searchForGifs)
+  yield takeEvery('GET_FAVES_S', getFaves)
 };
 
 
 
 //STORE & MIDDLEWEAR
+const sagaMiddleware = createSagaMiddleware();
 const storeInstance = createStore(
   combineReducers({
     gifList,
@@ -55,7 +73,6 @@ const storeInstance = createStore(
   applyMiddleware(logger, sagaMiddleware)
 );
 
-const sagaMiddleware = createSagaMiddleware();
 sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
