@@ -41,7 +41,7 @@ function GifItem( { item }) {
                 height="280"
                 src={item.img}
                 alt={item.title}
-                key={item.id}
+                key={item.img}
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">

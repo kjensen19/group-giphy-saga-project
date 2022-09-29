@@ -5,7 +5,7 @@ function Nav() {
     return (
         <>
             <Search />
-            <Favs />
+            {/* <Favs /> */}
         </>
     )
 }
