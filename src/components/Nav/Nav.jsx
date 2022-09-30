@@ -11,6 +11,7 @@ function Nav(){
             type: 'SEARCH_GIFS_S',
             payload: searchTerm
         });
+        setSearchTerm('');
     };
 
     const showFaves = () => {

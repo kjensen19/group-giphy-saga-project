@@ -6,9 +6,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from 'react';
 
 
-
-
-
 function GifList() {
     const dispatch = useDispatch()
     useEffect(() => {
@@ -18,12 +15,11 @@ function GifList() {
     const getGifs = () => {
         dispatch({
             type: 'SEARCH_GIFS_S',
-            payload: 'random'
+            payload: 'animals'
         })
     }
-    const theGifs = useSelector(store => store.gifList)
-    console.log('theGifs?', theGifs)
-
+    const theGifs = useSelector(store => store.gifList);
+    console.log('theGIPHYGifs from Reducer:', theGifs);
 
     // const itemData = {
     //     img: theGifs.data.images.fixed_height.url,
