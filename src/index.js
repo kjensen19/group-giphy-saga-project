@@ -14,11 +14,7 @@ import { takeEvery, put } from 'redux-saga/effects';
 
 
 //REDUCERS
-const gifList = (state=    [{
-          img: 'https://media.giphy.com/media/dB0lH3k3AE96259Exh/giphy.gif',
-          title: 'Hi!',
-          author: 'Sarah',
-        }], action) => {
+const gifList = (state = [], action) => {
     switch (action.type) {
         case 'SET_GIFS':
             return action.payload
@@ -27,28 +23,28 @@ const gifList = (state=    [{
 }
 
 //SAGA FUNCTIONS
+
 function* searchForGifs (action){
-  console.log('?', action.payload);
   try{
-    const giphyGifList = yield axios({
-        method: 'GET',
-        url: '/api/giphy', 
-        data: action.payload});
-    console.log(giphyGifList.data);
-        let giphyList = []
-        for(let gif of giphyGifList.data){
-            giphyList.push({
-            url: gif.images.fixed_height.url
-    })}
-    yield put ({
+    console.log(action.payload)
+    let response = yield axios({
+      method: 'GET', 
+      url: `/api/giphy/${action.payload}`
+    })
+    console.log(`Coming back from Giphy:`, response.data.data);
+    // const theGifs = response.data.data.map(gif => gif.embed_url);
+
+    //Maps through gif objects and returns only URL
+    yield put({
       type: 'SET_GIFS',
-      payload: giphyList
-    });
-  }
-  catch(error){
-    console.log(error);
-  };
+      payload: response.data.data.map(gif => gif.embed_url)
+    })
+    }
+    catch(error){
+      console.log(error);
+    };
 };
+
 
 function* getFaves() {
   console.log('in getFaves Saga');
