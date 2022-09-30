@@ -10,6 +10,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { useDispatch } from 'react-redux'
+import { useState } from 'react'
 
 
 // const itemData = [
@@ -32,12 +34,36 @@ import Select from '@mui/material/Select';
 
 
 function GifItem( { item, i }) {
+    const dispatch = useDispatch()
+    const [category, setCategory] = useState('Favorite')
 
-    function handleFavorite(fav) {
-        const idToFavorite = fav
-        console.log('ID?', idToFavorite)
+    function handleChange(event) {
+        console.log('event', event.target.value)
+        setCategory(event.target.value)
 
     }
+
+    function handleFavorite(fav) {
+        const urlToFavorite = {
+            url: item.url,
+            category: category}
+        console.log('URL?', urlToFavorite)
+        dispatch({
+            type: 'ADD_FAVES_S',
+            payload: urlToFavorite
+        })
+
+
+    }
+    // function putCategory() {
+    //     console.log('in put', category)
+
+    //     dispatch({
+    //         type: 'ADD_CATEGORY'
+    //     })
+    // }
+
+    
 
     return (
         <>
@@ -52,22 +78,23 @@ function GifItem( { item, i }) {
             <CardContent>
             </CardContent>
             <CardActions>
-                <FavoriteIcon id={i} onClick={() => handleFavorite(i)}/>Favorite
                 <Box sx={{ minWidth: 120 }}>
+                    <FavoriteIcon id={i} onClick={() => handleFavorite(item.url)}/>Favorite
                     <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label">CATEGORY</InputLabel>
                         <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value=""
+                        value={category}
                         label="category"
-                        // onChange={handleChange}
+                        onChange={handleChange}
                         >
                         <MenuItem value='Funny'>Funny</MenuItem>
                         <MenuItem value='Cohort'>Cohort</MenuItem>
                         <MenuItem value='Cartoon'>Cartoon</MenuItem>
                         <MenuItem value='NSFW'>NSFW</MenuItem>
                         <MenuItem value='Meme'>Meme</MenuItem>
+                        <MenuItem value='Favorite'>Favorite</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
