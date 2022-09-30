@@ -6,7 +6,7 @@ require('dotenv').config();
 const api_key = process.env.API_KEY;
 
 router.get ('/', (req, res) => {
-    // console.log(req.body);
+    console.log('?', req.params);
     axios({
         method: 'GET',
         url: `https://api.giphy.com/v1/gifs/trending?api_key=${api_key}&tag=${req.body}`

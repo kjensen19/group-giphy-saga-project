@@ -19,8 +19,11 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   console.log('req.body POST', req.body)
   const sqlText = `INSERT INTO "favorite" ("url")
-                    VALUES ($1)`
-  pool.query(sqlText, [req.body.url]).then ((result) => {
+                    VALUES ($1)
+                    AND
+                    INSERT INTO "category" ("name")
+                    VALUES ($2);`
+  pool.query(sqlText, [req.body.url, req.body.category]).then ((result) => {
     res.sendStatus(200);
   }).catch((error) => {
     console.log(error)

@@ -71,6 +71,7 @@ function* getFaves() {
 function* addFaves(action) {
     try{
         const urlToAdd = action.payload
+        console.log('post object', urlToAdd)
         yield axios({
             method: 'POST',
             url: '/api/favorite',
